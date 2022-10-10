@@ -68,11 +68,53 @@ function getALL() {
         console.log(data);
         let target = document.getElementById("data")
         target.innerHTML = ""
+
+        let today = new Date()
+
+        let TODAY = 0 , THIS_MONTH = 0;
+        let store = []
         for(let element in data){
+            store.push(element)
             let temp = element.split('|')
-            let min = temp[1]
-            let hour = temp[2]
-            let sec = temp[0]
+            let date = temp[3]
+            let month = temp[4]
+            let year = temp[5]
+            let rs = temp[6]
+
+            if(date == today.getDate() && month == today.getMonth() + 1 && year == today.getFullYear()){
+                TODAY += parseInt(rs);
+            }
+
+            if(month == today.getMonth() + 1 && year == today.getFullYear()){
+                THIS_MONTH += parseInt(rs);
+            }
+
+            
+        }
+        for(let i = 0 ; i < store.length ; i++){
+            for(let j = i + 1 ; j < store.length ; j++){
+                let temp1 = store[i].split('|')
+                let temp2 = store[j].split('|')
+                let date1 = temp1[3]
+                let date2 = temp2[3]
+                let month1 = temp1[4]
+                let month2 = temp2[4]
+                let year1 = temp1[5]
+                let year2 = temp2[5]
+
+                let date_i = new Date(year1 , month1 - 1 , date1)
+                let date_j = new Date(year2 , month2 - 1 , date2)
+
+                if(date_i.valueOf() > date_j.valueOf()){
+                    let swap = store[i];
+                    store[i] = store[j];
+                    store[j] = swap;
+                }
+            }
+        }
+
+        for(let i = 0 ; i < store.length ; i++){
+            let temp = store[i].split('|')
             let date = temp[3]
             let month = temp[4]
             let year = temp[5]
@@ -86,6 +128,9 @@ function getALL() {
             </tr>
             `
         }
+
+        document.getElementById("today").innerText = TODAY
+        document.getElementById("month").innerText = THIS_MONTH
     })
 }
 
@@ -104,3 +149,9 @@ document.getElementById("add").addEventListener("click" , function(){
         reason
     })
 })
+
+
+// let d = new Date(2022 , 9 , 10)
+// let d2 = new Date(2022 , 9 , 11)
+// console.log(d.valueOf());
+// console.log(d2.valueOf());
