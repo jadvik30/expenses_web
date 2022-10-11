@@ -105,7 +105,7 @@ function getALL() {
                 let date_i = new Date(year1 , month1 - 1 , date1)
                 let date_j = new Date(year2 , month2 - 1 , date2)
 
-                if(date_i.valueOf() > date_j.valueOf()){
+                if(date_i.valueOf() < date_j.valueOf()){
                     let swap = store[i];
                     store[i] = store[j];
                     store[j] = swap;
